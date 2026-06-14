@@ -28,13 +28,21 @@ jobs:
           EOF
       - name: Create network
         run: |
+          TOKEN=$(curl -s -X POST https://msk.cloud.vk.com/infra/identity/v3/auth/tokens \
+            -H "Content-Type: application/json" \
+            -d "{\"auth\":{\"identity\":{\"methods\":[\"password\"],\"password\":{\"user\":{\"name\":\"$OS_USERNAME\",\"domain\":{\"name\":\"$OS_USER_DOMAIN_NAME\"},\"password\":\"$OS_PASSWORD\"}}},\"scope\":{\"project\":{\"id\":\"$OS_PROJECT_ID\"}}}}" \
+            -i | grep "X-Subject-Token" | cut -d" " -f2- | tr -d '\r')
+          
           NET_ID=$(curl -s -X POST https://infra.mail.ru:9696/v2.0/networks \
             -H "Content-Type: application/json" \
-            -H "X-Auth-Token: $(curl -s -X POST https://msk.cloud.vk.com/infra/identity/v3/auth/tokens -H "Content-Type: application/json" -d '{"auth":{"identity":{"methods":["password"],"password":{"user":{"name":"'$OS_USERNAME'","domain":{"name":"users"},"password":"'$OS_PASSWORD'"}}},"scope":{"project":{"id":"'$OS_PROJECT_ID'"}}}}' -i | grep X-Subject-Token | cut -d' ' -f2-)" \
+            -H "X-Auth-Token: $TOKEN" \
             -d '{"network":{"name":"packer-net","admin_state_up":true}}' | python3 -c "import sys,json; print(json.load(sys.stdin)['network']['id'])")
+          
           echo "network_id = \"$NET_ID\"" > packer/network.auto.pkrvars.hcl
+          echo "Created network: $NET_ID"
         env:
           OS_USERNAME: ${{ secrets.OS_USERNAME }}
+          OS_USER_DOMAIN_NAME: users
           OS_PASSWORD: ${{ secrets.OS_PASSWORD }}
           OS_PROJECT_ID: ${{ secrets.OS_PROJECT_ID }}
       - name: Packer Init
