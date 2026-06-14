@@ -33,7 +33,7 @@ variable "network_id" {
 source "openstack" "ubuntu-nginx" {
   source_image        = var.source_image
   flavor              = var.flavor
-  networks = ["cfdb187d-350c-41a5-b94f-83ec778b367c"]
+  networks = ["e3a04e28-10a7-44a8-9bd5-490e77dd92e2"]
   availability_zone   = "GZ1"
   volume_availability_zone = "GZ1"
   ssh_username        = "ubuntu"
@@ -58,7 +58,7 @@ build {
       "echo 'Updating system...'",
       "sudo apt-get update -y",
       "sudo apt-get upgrade -y",
-      
+
       "echo 'Installing nginx...'",
       "sudo apt-get install -y nginx",
       
