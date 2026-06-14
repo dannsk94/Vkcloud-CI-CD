@@ -51,7 +51,6 @@ jobs:
   validate:
     name: Validate
     if: github.event_name != 'workflow_dispatch'
-    needs: packer_build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
