@@ -50,7 +50,10 @@ jobs:
 
   validate:
     name: Validate
-    if: github.event_name != 'workflow_dispatch'
+    if: |
+      github.event_name != 'workflow_dispatch' &&
+      !cancelled()
+    needs: packer_build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
