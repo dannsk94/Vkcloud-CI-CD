@@ -8,11 +8,6 @@ on:
 
 env:
   TF_ROOT: terraform
-  TF_VAR_auth_url: ${{ secrets.OS_AUTH_URL }}
-  TF_VAR_user_domain_name: users
-  TF_VAR_project_id: ${{ secrets.OS_PROJECT_ID }}
-  TF_VAR_username: ${{ secrets.OS_USERNAME }}
-  TF_VAR_password: ${{ secrets.OS_PASSWORD }}
 
 jobs:
   #packer_build:
@@ -42,39 +37,9 @@ jobs:
   validate:
     name: Terraform Validate
     runs-on: ubuntu-latest
-    #needs: packer_build
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      OS_AUTH_URL: ${{ secrets.OS_AUTH_URL }}
-      OS_PROJECT_ID: ${{ secrets.OS_PROJECT_ID }}
-      OS_REGION_NAME: ${{ secrets.OS_REGION_NAME }}
-      OS_USERNAME: ${{ secrets.OS_USERNAME }}
-      OS_USER_DOMAIN_NAME: ${{ secrets.OS_USER_DOMAIN_NAME }}
-      OS_PASSWORD: ${{ secrets.OS_PASSWORD }}
-      OS_INTERFACE: ${{ secrets.OS_INTERFACE }}
-      OS_IDENTITY_API_VERSION: ${{ secrets.OS_IDENTITY_API_VERSION }}
-      TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
-      OS_CLOUD: vkcs
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
-      - name: Create clouds.yaml
-        run: |
-          mkdir -p ~/.config/openstack
-          cat > ~/.config/openstack/clouds.yaml << EOF
-          clouds:
-            vkcs:
-              auth:
-                auth_url: $OS_AUTH_URL
-                username: $OS_USERNAME
-                password: $OS_PASSWORD
-                project_id: $OS_PROJECT_ID
-                user_domain_name: users
-                region_name: $OS_REGION_NAME
-              interface: public
-              identity_api_version: 3
-          EOF
       - run: terraform init
         working-directory: ${{ env.TF_ROOT }}
       - run: terraform validate
@@ -84,42 +49,19 @@ jobs:
     name: Terraform Plan
     runs-on: ubuntu-latest
     needs: validate
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      OS_AUTH_URL: ${{ secrets.OS_AUTH_URL }}
-      OS_PROJECT_ID: ${{ secrets.OS_PROJECT_ID }}
-      OS_REGION_NAME: ${{ secrets.OS_REGION_NAME }}
-      OS_USERNAME: ${{ secrets.OS_USERNAME }}
-      OS_USER_DOMAIN_NAME: ${{ secrets.OS_USER_DOMAIN_NAME }}
-      OS_PASSWORD: ${{ secrets.OS_PASSWORD }}
-      OS_INTERFACE: ${{ secrets.OS_INTERFACE }}
-      OS_IDENTITY_API_VERSION: ${{ secrets.OS_IDENTITY_API_VERSION }}
-      TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
-      OS_CLOUD: vkcs
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
-      - name: Create clouds.yaml for Terraform
-        run: |
-          mkdir -p ~/.config/openstack
-          cat > ~/.config/openstack/clouds.yaml << EOF
-          clouds:
-            vkcs:
-              auth:
-                auth_url: $OS_AUTH_URL
-                username: $OS_USERNAME
-                password: $OS_PASSWORD
-                project_id: $OS_PROJECT_ID
-                user_domain_name: users
-                region_name: $OS_REGION_NAME
-              interface: public
-              identity_api_version: 3
-          EOF
       - run: terraform init
         working-directory: ${{ env.TF_ROOT }}
       - run: terraform plan
         working-directory: ${{ env.TF_ROOT }}
+        env:
+          OS_AUTH_URL: ${{ secrets.OS_AUTH_URL }}
+          OS_USERNAME: ${{ secrets.OS_USERNAME }}
+          OS_PASSWORD: ${{ secrets.OS_PASSWORD }}
+          OS_PROJECT_ID: ${{ secrets.OS_PROJECT_ID }}
+          OS_REGION_NAME: ${{ secrets.OS_REGION_NAME }}
 
   apply:
     name: Terraform Apply
@@ -127,39 +69,16 @@ jobs:
     needs: plan
     if: github.ref == 'refs/heads/main'
     environment: production
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      OS_AUTH_URL: ${{ secrets.OS_AUTH_URL }}
-      OS_PROJECT_ID: ${{ secrets.OS_PROJECT_ID }}
-      OS_REGION_NAME: ${{ secrets.OS_REGION_NAME }}
-      OS_USERNAME: ${{ secrets.OS_USERNAME }}
-      OS_USER_DOMAIN_NAME: ${{ secrets.OS_USER_DOMAIN_NAME }}
-      OS_PASSWORD: ${{ secrets.OS_PASSWORD }}
-      OS_INTERFACE: ${{ secrets.OS_INTERFACE }}
-      OS_IDENTITY_API_VERSION: ${{ secrets.OS_IDENTITY_API_VERSION }}
-      TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
-      OS_CLOUD: vkcs
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
-      - name: Create clouds.yaml
-        run: |
-          mkdir -p ~/.config/openstack
-          cat > ~/.config/openstack/clouds.yaml << EOF
-          clouds:
-            vkcs:
-              auth:
-                auth_url: $OS_AUTH_URL
-                username: $OS_USERNAME
-                password: $OS_PASSWORD
-                project_id: $OS_PROJECT_ID
-                user_domain_name: users
-                region_name: $OS_REGION_NAME
-              interface: public
-              identity_api_version: 3
-          EOF
       - run: terraform init
         working-directory: ${{ env.TF_ROOT }}
       - run: terraform apply -auto-approve
         working-directory: ${{ env.TF_ROOT }}
+        env:
+          OS_AUTH_URL: ${{ secrets.OS_AUTH_URL }}
+          OS_USERNAME: ${{ secrets.OS_USERNAME }}
+          OS_PASSWORD: ${{ secrets.OS_PASSWORD }}
+          OS_PROJECT_ID: ${{ secrets.OS_PROJECT_ID }}
+          OS_REGION_NAME: ${{ secrets.OS_REGION_NAME }}
