@@ -37,9 +37,9 @@ source "openstack" "ubuntu-nginx" {
   availability_zone   = "GZ1"
   volume_availability_zone = "GZ1"
   ssh_username        = "ubuntu"
-  ssh_timeout         = "5m"
+  ssh_timeout         = "2m"
 # floating_ip_network = "internet"
-  security_groups     = ["default", "all", "ssh+www"]
+  security_groups     = ["ssh"]
   use_blockstorage_volume = true
   volume_size         = 10
   image_name          = "${var.image_name}-${formatdate("YYYY-MM-DD-hhmm", timestamp())}"
