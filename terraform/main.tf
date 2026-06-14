@@ -21,7 +21,6 @@ terraform {
     endpoints = {
       s3 = "https://hb.ru-msk.vkcloud-storage.ru"
     }
-    
     skip_credentials_validation = true
     skip_metadata_api_check     = true
     skip_region_validation      = true
@@ -30,10 +29,4 @@ terraform {
   }
 }
 
-provider "vkcs" {
-  auth_url        = var.auth_url
-  username        = var.username
-  password        = var.password
-  project_id      = var.project_id
-  user_domain_name = var.user_domain_name
-}
+provider "vkcs" {}
