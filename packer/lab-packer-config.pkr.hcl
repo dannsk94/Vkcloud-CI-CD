@@ -39,7 +39,7 @@ source "openstack" "ubuntu-nginx" {
   ssh_username        = "ubuntu"
   ssh_timeout         = "2m"
 # floating_ip_network = "internet"
-  security_groups     = ["ssh"]
+  security_groups     = ["test"]
   use_blockstorage_volume = true
   volume_size         = 10
   image_name          = "${var.image_name}-${formatdate("YYYY-MM-DD-hhmm", timestamp())}"
