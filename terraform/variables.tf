@@ -33,3 +33,9 @@ variable "image_name" {
   description = "Packer image ID"
   type        = string
 }
+
+variable "ssh_public_key" {
+  description = "SSH public key"
+  type        = string
+  default     = ""  # пусто для GitHub
+}

@@ -143,5 +143,5 @@ resource "vkcs_networking_secgroup_rule" "lb_http_in" {
 # SSH ключ
 resource "vkcs_compute_keypair" "main" {
   name       = "${var.project_name}-key"
-  public_key = file("~/.ssh/my_key.pub")
+  public_key = var.ssh_public_key != "" ? var.ssh_public_key : file("~/.ssh/my_key.pub")
 }
