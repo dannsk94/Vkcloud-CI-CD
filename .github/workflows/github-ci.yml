@@ -31,6 +31,15 @@ jobs:
           cd packer
           packer init lab-packer-config.pkr.hcl
           packer build lab-packer-config.pkr.hcl
+        env:
+          OS_AUTH_URL: ${{ secrets.OS_AUTH_URL }}
+          OS_PROJECT_ID: ${{ secrets.OS_PROJECT_ID }}
+          OS_REGION_NAME: ${{ secrets.OS_REGION_NAME }}
+          OS_USERNAME: ${{ secrets.OS_USERNAME }}
+          OS_USER_DOMAIN_NAME: ${{ secrets.OS_USER_DOMAIN_NAME }}
+          OS_PASSWORD: ${{ secrets.OS_PASSWORD }}
+          OS_INTERFACE: ${{ secrets.OS_INTERFACE }}
+          OS_IDENTITY_API_VERSION: ${{ secrets.OS_IDENTITY_API_VERSION }}
       - run: bash packer/image-name.sh
 
   validate:
