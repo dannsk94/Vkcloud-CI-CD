@@ -43,11 +43,6 @@ source "openstack" "ubuntu-nginx" {
   volume_size         = 10
   image_name          = "${var.image_name}-${formatdate("YYYY-MM-DD-hhmm", timestamp())}"
   
-  identity_endpoint   = "https://msk.cloud.vk.com/infra/identity/v3/"
-  tenant_id           = "532a09a2ebcd42fdac463c80afadea0c"
-  region              = "RegionOne"
-  username            = "dannsk@inbox.ru"
-  password            = var.os_password
 }
 
 build {
