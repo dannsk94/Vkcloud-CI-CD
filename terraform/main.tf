@@ -18,7 +18,9 @@ terraform {
     bucket   = "terraform-state-lab2-m05"
     key      = "lab2/terraform.tfstate"
     region   = "ru-msk"
-    endpoints = "https://hb.ru-msk.vkcloud-storage.ru"
+    endpoints = {
+      s3 = "https://hb.ru-msk.vkcloud-storage.ru"
+    }
     
     skip_credentials_validation = true
     skip_metadata_api_check     = true
