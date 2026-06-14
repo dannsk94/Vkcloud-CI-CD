@@ -24,7 +24,12 @@ variable "source_image" {
   default = "a4e699d3-a66d-45e5-bb5d-70ea7c8de62d"
 }
 
-# Источник (source) — параметры образа
+variable "os_password" {
+  type      = string
+  sensitive = true
+}
+
+# Источник
 source "openstack" "ubuntu-nginx" {
   source_image        = var.source_image
   flavor              = var.flavor
@@ -37,9 +42,15 @@ source "openstack" "ubuntu-nginx" {
   use_blockstorage_volume = true
   volume_size         = 10
   image_name          = "${var.image_name}-${formatdate("YYYY-MM-DD-hhmm", timestamp())}"
+  
+  identity_endpoint   = "https://msk.cloud.vk.com/infra/identity/v3/"
+  user_domain_name    = "users"
+  tenant_id           = "532a09a2ebcd42fdac463c80afadea0c"
+  region              = "RegionOne"
+  username            = "dannsk@inbox.ru"
+  password            = var.os_password
 }
 
-# Сборка
 build {
   sources = ["source.openstack.ubuntu-nginx"]
 
@@ -48,23 +59,17 @@ build {
       "echo 'Cleaning apt cache...'",
       "sudo rm -rf /var/lib/apt/lists/*",
       "sudo apt-get clean",
-      
       "echo 'Updating system...'",
       "sudo apt-get update -y",
-      
       "echo 'Installing nginx...'",
       "sudo apt-get install -y nginx",
-      
       "echo 'Installing PHP...'",
       "sudo apt-get install -y php-fpm php-mysqlnd",
-      
       "echo 'Configuring nginx...'",
       "sudo systemctl enable nginx",
       "sudo systemctl start nginx",
-      
       "echo 'Creating test page...'",
       "echo '<h1>Built with Packer</h1>' | sudo tee /var/www/html/index.html",
-      
       "echo 'Cleaning up...'",
       "sudo apt-get clean",
       "sudo rm -rf /tmp/*",
