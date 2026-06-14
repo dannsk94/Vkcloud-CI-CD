@@ -28,12 +28,12 @@ variable "source_image" {
 source "openstack" "ubuntu-nginx" {
   source_image        = var.source_image
   flavor              = var.flavor
-  networks            = ["8c510bcc-c1c8-4009-a3fe-c9e49a46bf1a"]
+  networks            = ["internet"]
   availability_zone   = "GZ1"
   volume_availability_zone = "GZ1"
   ssh_username        = "ubuntu"
   ssh_timeout         = "5m"
-  floating_ip_network = "internet"
+# floating_ip_network = "internet"
   security_groups     = ["default", "all"]
   use_blockstorage_volume = true
   volume_size         = 10
