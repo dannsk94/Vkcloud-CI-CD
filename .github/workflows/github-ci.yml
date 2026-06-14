@@ -50,12 +50,14 @@ jobs:
       OS_INTERFACE: ${{ secrets.OS_INTERFACE }}
       OS_IDENTITY_API_VERSION: ${{ secrets.OS_IDENTITY_API_VERSION }}
       TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+      OS_CLOUD: vkcs
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
-      - name: Create clouds.yaml for Terraform
+      - name: Create clouds.yaml
         run: |
-          cat > ${{ env.TF_ROOT }}/clouds.yaml << EOF
+          mkdir -p ~/.config/openstack
+          cat > ~/.config/openstack/clouds.yaml << EOF
           clouds:
             vkcs:
               auth:
@@ -89,12 +91,14 @@ jobs:
       OS_INTERFACE: ${{ secrets.OS_INTERFACE }}
       OS_IDENTITY_API_VERSION: ${{ secrets.OS_IDENTITY_API_VERSION }}
       TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+      OS_CLOUD: vkcs
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
       - name: Create clouds.yaml for Terraform
         run: |
-          cat > ${{ env.TF_ROOT }}/clouds.yaml << EOF
+          mkdir -p ~/.config/openstack
+          cat > ~/.config/openstack/clouds.yaml << EOF
           clouds:
             vkcs:
               auth:
@@ -130,12 +134,14 @@ jobs:
       OS_INTERFACE: ${{ secrets.OS_INTERFACE }}
       OS_IDENTITY_API_VERSION: ${{ secrets.OS_IDENTITY_API_VERSION }}
       TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+      OS_CLOUD: vkcs
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
-      - name: Create clouds.yaml for Terraform
+      - name: Create clouds.yaml
         run: |
-          cat > ${{ env.TF_ROOT }}/clouds.yaml << EOF
+          mkdir -p ~/.config/openstack
+          cat > ~/.config/openstack/clouds.yaml << EOF
           clouds:
             vkcs:
               auth:
