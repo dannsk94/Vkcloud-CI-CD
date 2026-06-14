@@ -34,7 +34,7 @@ jobs:
       - name: Packer Build
         run: |
           cd packer
-          packer build -var "os_password=$OS_PASSWORD" lab-packer-config.pkr.hcl
+          packer build -var "os_password=${{ secrets.OS_PASSWORD }}" lab-packer-config.pkr.hcl
       - name: Get Image ID
         run: bash packer/image-name.sh
 
