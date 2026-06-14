@@ -14,7 +14,7 @@
 4. **GitHub Actions** — CI/CD пайплайн
 
 ## Структура проекта
-
+```
 lab2-cicd/
 ├── .github/
 │   └── workflows/
@@ -32,7 +32,7 @@ lab2-cicd/
 │   ├── lab-packer-config.pkr.hcl      # Конфигурация образа
 │   └── image-name.sh                  # Скрипт получения ID образа
 └── README.md
-
+```
 ## 🏗️ Архитектура
 
 | Компонент | Описание |
