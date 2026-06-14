@@ -36,5 +36,4 @@ provider "vkcs" {
   project_id        = var.project_id
   username          = var.username
   password          = var.password
-  region_name       = var.region_name
 }

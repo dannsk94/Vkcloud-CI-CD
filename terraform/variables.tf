@@ -45,4 +45,3 @@ variable "user_domain_name" {}
 variable "project_id" {}
 variable "username" {}
 variable "password" {}
-variable "region_name" {}

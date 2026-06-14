@@ -13,7 +13,6 @@ env:
   TF_VAR_project_id: ${{ secrets.OS_PROJECT_ID }}
   TF_VAR_username: ${{ secrets.OS_USERNAME }}
   TF_VAR_password: ${{ secrets.OS_PASSWORD }}
-  TF_VAR_region_name: ${{ secrets.OS_REGION_NAME }}
 
 jobs:
   #packer_build:
