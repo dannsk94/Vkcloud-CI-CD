@@ -57,6 +57,7 @@ build {
       
       "echo 'Updating system...'",
       "sudo apt-get update -y",
+      "sudo apt-get upgrade -y",
       
       "echo 'Installing nginx...'",
       "sudo apt-get install -y nginx",
