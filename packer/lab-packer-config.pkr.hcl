@@ -37,7 +37,7 @@ source "openstack" "ubuntu-nginx" {
   availability_zone   = "GZ1"
   volume_availability_zone = "GZ1"
   ssh_username        = "ubuntu"
-  ssh_timeout         = "2m"
+  ssh_timeout         = "3m"
   floating_ip_network = "internet"
   security_groups     = ["test"]
   use_blockstorage_volume = true
