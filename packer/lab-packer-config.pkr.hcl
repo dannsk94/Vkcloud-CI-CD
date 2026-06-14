@@ -24,17 +24,22 @@ variable "source_image" {
   default = "a4e699d3-a66d-45e5-bb5d-70ea7c8de62d"
 }
 
+variable "network_id" {
+  type    = string
+  default = "ec8c610e-6387-447e-83d2-d2c541e88164"
+}
+
 # Источник (source) — параметры образа
 source "openstack" "ubuntu-nginx" {
   source_image        = var.source_image
   flavor              = var.flavor
-  networks            = ["ec8c610e-6387-447e-83d2-d2c541e88164"]
+  networks = [var.network_id]
   availability_zone   = "GZ1"
   volume_availability_zone = "GZ1"
   ssh_username        = "ubuntu"
   ssh_timeout         = "5m"
 # floating_ip_network = "internet"
-  security_groups     = ["default", "all"]
+  security_groups     = ["default", "all", "ssh+www"]
   use_blockstorage_volume = true
   volume_size         = 10
   image_name          = "${var.image_name}-${formatdate("YYYY-MM-DD-hhmm", timestamp())}"

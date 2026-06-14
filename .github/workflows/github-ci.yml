@@ -23,8 +23,8 @@ jobs:
           cat > packer/clouds.yaml << 'EOF'
           ${{ secrets.CLOUDS_YAML }}
           EOF
-      - name: Show clouds.yaml
-        run: cat packer/clouds.yaml
+      - name: Get Network ID
+        run: bash packer/get-network.sh
       - name: Packer Init
         run: |
           cd packer
