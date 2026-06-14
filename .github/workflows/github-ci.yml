@@ -23,8 +23,6 @@ jobs:
           cat > packer/clouds.yaml << 'EOF'
           ${{ secrets.CLOUDS_YAML }}
           EOF
-      - name: Get Network ID
-        run: bash packer/get-network.sh
       - name: Packer Init
         run: |
           cd packer
@@ -55,6 +53,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
+      - name: Create clouds.yaml for Terraform
+        run: |
+          cat > ${{ env.TF_ROOT }}/clouds.yaml << EOF
+          clouds:
+            vkcs:
+              auth:
+                auth_url: $OS_AUTH_URL
+                username: $OS_USERNAME
+                password: $OS_PASSWORD
+                project_id: $OS_PROJECT_ID
+                user_domain_name: users
+                region_name: $OS_REGION_NAME
+              interface: public
+              identity_api_version: 3
+          EOF
       - run: terraform init
         working-directory: ${{ env.TF_ROOT }}
       - run: terraform validate
@@ -79,6 +92,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
+      - name: Create clouds.yaml for Terraform
+        run: |
+          cat > ${{ env.TF_ROOT }}/clouds.yaml << EOF
+          clouds:
+            vkcs:
+              auth:
+                auth_url: $OS_AUTH_URL
+                username: $OS_USERNAME
+                password: $OS_PASSWORD
+                project_id: $OS_PROJECT_ID
+                user_domain_name: users
+                region_name: $OS_REGION_NAME
+              interface: public
+              identity_api_version: 3
+          EOF
       - run: terraform init
         working-directory: ${{ env.TF_ROOT }}
       - run: terraform plan
@@ -105,6 +133,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
+      - name: Create clouds.yaml for Terraform
+        run: |
+          cat > ${{ env.TF_ROOT }}/clouds.yaml << EOF
+          clouds:
+            vkcs:
+              auth:
+                auth_url: $OS_AUTH_URL
+                username: $OS_USERNAME
+                password: $OS_PASSWORD
+                project_id: $OS_PROJECT_ID
+                user_domain_name: users
+                region_name: $OS_REGION_NAME
+              interface: public
+              identity_api_version: 3
+          EOF
       - run: terraform init
         working-directory: ${{ env.TF_ROOT }}
       - run: terraform apply -auto-approve

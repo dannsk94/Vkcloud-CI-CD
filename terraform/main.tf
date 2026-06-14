@@ -30,4 +30,6 @@ terraform {
   }
 }
 
-provider "vkcs" {}
+provider "vkcs" {
+  cloud = "vkcs"
+}
