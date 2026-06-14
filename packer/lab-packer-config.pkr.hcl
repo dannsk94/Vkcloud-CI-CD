@@ -38,6 +38,7 @@ source "openstack" "ubuntu-nginx" {
   use_blockstorage_volume = true
   volume_size         = 10
   image_name          = "${var.image_name}-${formatdate("YYYY-MM-DD-hhmm", timestamp())}"
+  volume_endpoint = "https://msk.infra.mail.ru:8776/v3/532a09a2ebcd42fdac463c80afadea0c"
 }
 
 # Сборка
