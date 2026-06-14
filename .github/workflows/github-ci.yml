@@ -19,9 +19,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-packer@v3
       - name: Create clouds.yaml
-        run: echo "$CLOUDS_YAML" > packer/clouds.yaml
-        env:
-          CLOUDS_YAML: ${{ secrets.CLOUDS_YAML }}
+        run: |
+          cat > packer/clouds.yaml << 'EOF'
+          ${{ secrets.CLOUDS_YAML }}
+          EOF
+      - name: Show clouds.yaml
+        run: cat packer/clouds.yaml
       - name: Packer Init
         run: |
           cd packer
