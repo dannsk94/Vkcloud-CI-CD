@@ -39,3 +39,9 @@ variable "ssh_public_key" {
   type        = string
   default     = ""  # пусто для GitHub
 }
+
+variable "auth_url" {}
+variable "username" {}
+variable "password" {}
+variable "project_id" {}
+variable "user_domain_name" {}

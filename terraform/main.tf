@@ -30,4 +30,10 @@ terraform {
   }
 }
 
-provider "vkcs" {}
+provider "vkcs" {
+  auth_url        = var.auth_url
+  username        = var.username
+  password        = var.password
+  project_id      = var.project_id
+  user_domain_name = var.user_domain_name
+}
