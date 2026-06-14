@@ -3,6 +3,8 @@ name: Packer + Terraform CI/CD
 on:
   push:
     branches: [main]
+    paths:
+      - 'packer/**'
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -15,7 +17,6 @@ env:
 jobs:
   packer_build:
     name: Packer Build
-    if: github.event_name == 'push' && contains(github.event.head_commit.modified, 'packer/')
     runs-on: ubuntu-latest
     env:
       PACKER_GITHUB_API_TOKEN: ${{ secrets.PACKER_GITHUB_API_TOKEN }}
@@ -45,9 +46,7 @@ jobs:
 
   validate:
     name: Validate
-    if: |
-      github.event_name != 'workflow_dispatch' &&
-      !cancelled()
+    if: github.event_name != 'workflow_dispatch' && !cancelled()
     needs: packer_build
     runs-on: ubuntu-latest
     steps:
@@ -64,7 +63,7 @@ jobs:
 
   plan:
     name: Plan
-    if: github.event_name != 'workflow_dispatch'
+    if: github.event_name != 'workflow_dispatch' && !cancelled()
     needs: validate
     runs-on: ubuntu-latest
     env:
@@ -90,7 +89,7 @@ jobs:
 
   apply:
     name: Apply
-    if: github.event_name != 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    if: github.event_name != 'workflow_dispatch' && github.ref == 'refs/heads/main' && !cancelled()
     needs: plan
     environment: production
     runs-on: ubuntu-latest
