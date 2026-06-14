@@ -33,7 +33,7 @@ variable "network_id" {
 source "openstack" "ubuntu-nginx" {
   source_image        = var.source_image
   flavor              = var.flavor
-  networks = [var.network_id]
+  networks = ["8c510bcc-c1c8-4009-a3fe-c9e49a46bf1a"]
   availability_zone   = "GZ1"
   volume_availability_zone = "GZ1"
   ssh_username        = "ubuntu"
