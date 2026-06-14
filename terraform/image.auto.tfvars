@@ -1,1 +1,1 @@
-image_name = "ef867710-40f7-46ad-a64a-cb017ec7f486"
+image_name = "a01baee2-916d-44db-bcda-788bb6a677db"
